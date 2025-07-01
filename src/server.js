@@ -22,3 +22,8 @@ const init = async () => {
 };
 
 init();
+
+process.on('unhandledRejection', (err) => {
+  console.error('UNHANDLED ERROR:', err);
+  process.exit(1);
+});
