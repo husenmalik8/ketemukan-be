@@ -6,6 +6,17 @@ const init = async () => {
     host: '0.0.0.0',
   });
 
+  server.route({
+    method: 'GET',
+    path: '/',
+    handler: () => {
+      return {
+        status: 'success',
+        message: 'Halo dari Railway dalam bentuk JSON!',
+      };
+    },
+  });
+
   await server.start();
   console.log(`Server berjalan pada ${server.info.uri}`);
 };
