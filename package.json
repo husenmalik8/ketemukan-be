@@ -1,0 +1,31 @@
+{
+  "name": "ketemukan-be-husenmalik8",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ./src/server.js",
+    "dev": "nodemon ./src/server.js",
+    "migrate": "node-pg-migrate",
+    "lint": "eslint ./"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/husenmalik8/ketemukan-be.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/husenmalik8/ketemukan-be/issues"
+  },
+  "homepage": "https://github.com/husenmalik8/ketemukan-be#readme",
+  "dependencies": {
+    "@hapi/hapi": "^21.4.0",
+    "dotenv": "^17.0.0",
+    "joi": "^17.13.3",
+    "nanoid": "^5.1.5",
+    "node-pg-migrate": "^8.0.3",
+    "pg": "^8.16.3"
+  }
+}
