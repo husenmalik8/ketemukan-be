@@ -3,14 +3,15 @@
 npm init
 
 npm install
-"@hapi/hapi": "^21.4.0",
-"dotenv": "^16.5.0",
-"joi": "^17.13.3",
-"nanoid": "^3.3.11",
-"node-pg-migrate": "^8.0.2",
-"pg": "^8.16.0"
+@hapi/hapi
+dotenv
+joi
+nanoid@3
+node-pg-migrate
+pg
 @hapi/jwt
 @hapi/inert
+cloudinary
 
 ==========
 migrations
