@@ -11,3 +11,10 @@ npm install
 "pg": "^8.16.0"
 @hapi/jwt
 @hapi/inert
+
+==========
+migrations
+==========
+npm run migrate create "create table albums"
+
+npm run migrate up
