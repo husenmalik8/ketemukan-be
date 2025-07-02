@@ -1,3 +1,13 @@
+const cloudinary = require('../../cloudinary');
+const DatauriParser = require('datauri/parser');
+const path = require('path');
+const parser = new DatauriParser();
+
+const bufferToDataUri = (file) => {
+  const ext = path.extname(file.hapi.filename).toString();
+  return parser.format(ext, file._data).content;
+};
+
 class UploadsHandler {
   constructor(service, validator) {
     this._service = service;
@@ -10,8 +20,14 @@ class UploadsHandler {
 
     this._validator.validateImageHeaders(cover.hapi.headers);
 
-    const filename = await this._service.writeFile(cover, cover.hapi);
-    const fileLocation = `http://${process.env.HOST}:${process.env.PORT}/albums/${albumId}/images/${filename}`;
+    const fileContent = bufferToDataUri(cover);
+    const result = await cloudinary.uploader.upload(fileContent, {
+      folder: 'album-covers',
+    });
+    const fileLocation = result.secure_url;
+
+    // const filename = await this._service.writeFile(cover, cover.hapi);
+    // const fileLocation = `http://${process.env.HOST}:${process.env.PORT}/albums/${albumId}/images/${filename}`;
 
     await this._service.editAlbumCover(albumId, fileLocation);
 

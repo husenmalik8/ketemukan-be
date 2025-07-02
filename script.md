@@ -12,6 +12,7 @@ pg
 @hapi/jwt
 @hapi/inert
 cloudinary
+datauri
 
 ==========
 migrations
