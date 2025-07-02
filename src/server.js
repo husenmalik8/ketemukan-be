@@ -74,6 +74,12 @@ const init = async () => {
     return h.continue;
   });
 
+  server.route({
+    method: 'GET',
+    path: '/',
+    handler: () => ({ status: 'ok' }),
+  });
+
   await server.start();
   console.log(`Server berjalan pada ${server.info.uri}`);
 };
