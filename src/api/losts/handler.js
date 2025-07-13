@@ -41,7 +41,10 @@ class LostsHandler {
 
   getLostByIdHandler = async (request) => {
     const { id } = request.params;
-    const lostDetail = await this._service.getLostById(id);
+    const detail = await this._service.getLostById(id);
+    const comments = await this._service.getLostCommentsByLostId(id);
+
+    const lostDetail = { ...detail, comments };
 
     return {
       status: 'success',

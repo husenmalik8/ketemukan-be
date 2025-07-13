@@ -41,7 +41,10 @@ class FoundsHandler {
 
   getFoundByIdHandler = async (request) => {
     const { id } = request.params;
-    const foundDetail = await this._service.getFoundById(id);
+    const detail = await this._service.getFoundById(id);
+    const comments = await this._service.getFoundCommentsByFoundId(id);
+
+    const foundDetail = { ...detail, comments };
 
     return {
       status: 'success',

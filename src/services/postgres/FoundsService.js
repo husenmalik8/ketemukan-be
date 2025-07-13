@@ -73,6 +73,29 @@ class FoundsService {
     return result.rows[0];
   }
 
+  async getFoundCommentsByFoundId(foundItemId) {
+    const query = {
+      text: `SELECT 
+                found_comments.comment,
+                found_comments.created_at,
+                users.id as user_id,
+                users.username,
+                users.fullname,
+                users.profile_picture
+            FROM found_comments
+            LEFT JOIN users ON found_comments.user_id = users.id
+            WHERE found_comments.found_item_id = $1`,
+      values: [foundItemId],
+    };
+
+    const result = await this._pool.query(query).catch((error) => {
+      console.error(error);
+      throw new ServerError('Internal server error');
+    });
+
+    return result.rows;
+  }
+
   async addFoundComment({ comment, foundId, userId }) {
     const id = `found-comment-${nanoid(16)}`;
     const createdAt = new Date().toISOString();

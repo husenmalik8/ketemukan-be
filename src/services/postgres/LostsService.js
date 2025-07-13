@@ -72,6 +72,29 @@ class LostsService {
     return result.rows[0];
   }
 
+  async getLostCommentsByLostId(lostItemId) {
+    const query = {
+      text: `SELECT 
+                lost_comments.comment,
+                lost_comments.created_at,
+                users.id as user_id,
+                users.username,
+                users.fullname,
+                users.profile_picture
+            FROM lost_comments
+            LEFT JOIN users ON lost_comments.user_id = users.id
+            WHERE lost_comments.lost_item_id = $1`,
+      values: [lostItemId],
+    };
+
+    const result = await this._pool.query(query).catch((error) => {
+      console.error(error);
+      throw new ServerError('Internal server error');
+    });
+
+    return result.rows;
+  }
+
   async addLostComment({ comment, lostId, userId }) {
     const id = `lost-comment-${nanoid(16)}`;
     const createdAt = new Date().toISOString();
