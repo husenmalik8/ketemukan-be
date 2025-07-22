@@ -49,6 +49,18 @@ class UsersHandler {
       },
     };
   };
+
+  getMyFoundItemsHandler = async (request) => {
+    const { id: userId } = request.auth.credentials;
+    const myFoundItems = await this._service.getMyFoundItems(userId);
+
+    return {
+      status: 'success',
+      data: {
+        myFoundItems,
+      },
+    };
+  };
 }
 
 module.exports = UsersHandler;

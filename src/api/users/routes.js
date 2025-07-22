@@ -21,6 +21,14 @@ const routes = (handler) => [
       auth: 'ketemukan_jwt',
     },
   },
+  {
+    method: 'GET',
+    path: '/my/found-items',
+    handler: handler.getMyFoundItemsHandler,
+    options: {
+      auth: 'ketemukan_jwt',
+    },
+  },
 ];
 
 module.exports = routes;
