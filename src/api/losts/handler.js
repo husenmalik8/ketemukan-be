@@ -1,7 +1,8 @@
 class LostsHandler {
-  constructor(service, validator) {
+  constructor(service, validator, pointService) {
     this._service = service;
     this._validator = validator;
+    this._pointService = pointService;
   }
 
   postLostHandler = async (request, h) => {
@@ -20,6 +21,8 @@ class LostsHandler {
       categoryId,
       locationId,
     });
+
+    await this._pointService.addPoint(20, userId);
 
     const response = h.response({
       status: 'success',

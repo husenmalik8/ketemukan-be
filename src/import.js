@@ -52,6 +52,8 @@ const uploads = require('./api/uploads');
 const StorageService = require('./services/storage/StorageService');
 const UploadsValidator = require('./validator/uploads');
 
+const PointService = require('./services/postgres/PointService');
+
 module.exports = {
   Hapi,
   Jwt,
@@ -85,4 +87,5 @@ module.exports = {
   uploads,
   StorageService,
   UploadsValidator,
+  PointService,
 };

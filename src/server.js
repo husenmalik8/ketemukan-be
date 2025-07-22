@@ -1,7 +1,7 @@
 require('dotenv').config();
 
 // prettier-ignore
-const { Hapi, Jwt, Inert, path, HttpError, TokenManager, albums, AlbumsService, AlbumsValidator, categories, CategoriesService, locations, LocationsService, losts, LostsService, LostsValidator, lostComments, LostCommentsValidator, founds, FoundsService, FoundsValidator, foundComments, FoundCommentsValidator, users, UsersService, UsersValidator, authentications, AuthenticationsService, AuthenticationsValidator, uploads, StorageService, UploadsValidator, } = require('./import');
+const { Hapi, Jwt, Inert, path, HttpError, TokenManager, albums, AlbumsService, AlbumsValidator, categories, CategoriesService, locations, LocationsService, losts, LostsService, LostsValidator, lostComments, LostCommentsValidator, founds, FoundsService, FoundsValidator, foundComments, FoundCommentsValidator, users, UsersService, UsersValidator, authentications, AuthenticationsService, AuthenticationsValidator, uploads, StorageService, UploadsValidator, PointService } = require('./import');
 
 const init = async () => {
   const albumsService = new AlbumsService();
@@ -9,6 +9,9 @@ const init = async () => {
   const locationsService = new LocationsService();
 
   const lostsService = new LostsService();
+
+  const pointService = new PointService();
+
   const foundsService = new FoundsService();
   const usersService = new UsersService();
   const authenticationsService = new AuthenticationsService();
@@ -77,6 +80,7 @@ const init = async () => {
       options: {
         service: lostsService,
         validator: LostsValidator,
+        pointService: pointService,
       },
     },
     {
