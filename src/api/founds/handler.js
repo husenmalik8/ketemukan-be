@@ -1,13 +1,15 @@
 class FoundsHandler {
-  constructor(service, validator) {
+  constructor(service, validator, pointService) {
     this._service = service;
     this._validator = validator;
+    this._pointService = pointService;
   }
 
   postFoundHandler = async (request, h) => {
     this._validator.validateFoundPayload(request.payload);
 
-    const { title, shortDesc, description, foundDate } = request.payload;
+    const { title, shortDesc, description, foundDate, categoryId, locationId } =
+      request.payload;
     const { id: userId } = request.auth.credentials;
 
     const foundId = await this._service.addFound({
@@ -16,7 +18,11 @@ class FoundsHandler {
       description,
       foundDate,
       userId,
+      categoryId,
+      locationId,
     });
+
+    await this._pointService.addPoint(50, userId);
 
     const response = h.response({
       status: 'success',

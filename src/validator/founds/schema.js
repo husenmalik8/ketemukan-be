@@ -5,6 +5,8 @@ const FoundPayloadSchema = Joi.object({
   shortDesc: Joi.string().required(),
   description: Joi.string().required(),
   foundDate: Joi.string().required(),
+  categoryId: Joi.string().required(),
+  locationId: Joi.string().required(),
 });
 
 module.exports = { FoundPayloadSchema };

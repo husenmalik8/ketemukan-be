@@ -95,6 +95,7 @@ const init = async () => {
       options: {
         service: foundsService,
         validator: FoundsValidator,
+        pointService: pointService,
       },
     },
     {
