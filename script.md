@@ -23,6 +23,8 @@ CREATE DATABASE ketemukan_v2_2;
 GRANT ALL ON DATABASE ketemukan_v2_2 TO developer;
 ALTER DATABASE ketemukan_v2_2 OWNER TO developer;
 
+DROP DATABASE ketemukan_v2_2;
+
 ==========
 migrations
 ==========
@@ -42,5 +44,6 @@ npm run migrate create "create table found_comments"
 
 npm run migrate create "insert table categories"
 npm run migrate create "insert table locations"
+npm run migrate create "insert table achievements"
 
 npm run migrate up
