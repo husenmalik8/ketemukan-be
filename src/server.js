@@ -88,6 +88,7 @@ const init = async () => {
       options: {
         service: lostsService,
         validator: LostCommentsValidator,
+        pointService: pointService,
       },
     },
     {
