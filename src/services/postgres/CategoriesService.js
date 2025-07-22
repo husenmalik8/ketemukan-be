@@ -8,6 +8,17 @@ class CategoriesService {
     this._pool = new Pool();
   }
 
+  async getCategories() {
+    const result = await this._pool
+      .query('SELECT id, name FROM categories')
+      .catch((error) => {
+        console.error(error);
+        throw new ServerError('Internal server error');
+      });
+
+    return result.rows;
+  }
+
   async addCategory({ name }) {
     const id = `category-${nanoid(16)}`;
     const createdAt = new Date().toISOString();

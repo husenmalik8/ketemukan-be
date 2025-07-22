@@ -4,6 +4,16 @@ class CategoriesHandler {
     this._validator = validator;
   }
 
+  getAllCategoriesHandler = async () => {
+    const categories = await this._service.getCategories();
+    return {
+      status: 'success',
+      data: {
+        categories,
+      },
+    };
+  };
+
   postCategoriesHandler = async (request, h) => {
     const { name } = request.payload;
     const categoryId = await this._service.addCategory({ name });

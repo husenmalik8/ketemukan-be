@@ -1,5 +1,10 @@
 const routes = (handler) => [
   {
+    method: 'GET',
+    path: '/categories',
+    handler: handler.getAllCategoriesHandler,
+  },
+  {
     method: 'POST',
     path: '/categories',
     handler: handler.postCategoriesHandler,
