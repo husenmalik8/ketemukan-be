@@ -25,7 +25,7 @@ exports.up = (pgm) => {
       notNull: false,
     },
     points: {
-      type: 'TEXT',
+      type: 'INTEGER',
       notNull: false,
     },
 

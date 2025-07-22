@@ -24,7 +24,7 @@ exports.up = (pgm) => {
       notNull: true,
     },
     condition_value: {
-      type: 'TEXT',
+      type: 'INTEGER',
       notNull: true,
     },
 
