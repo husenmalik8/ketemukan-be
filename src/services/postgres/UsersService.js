@@ -64,7 +64,19 @@ class UsersService {
 
   async getProfileUser(userId) {
     const query = {
-      text: 'SELECT id, username, fullname, profile_picture FROM users WHERE id = $1',
+      text: `SELECT 
+                users.id,
+                users.username,
+                users.fullname,
+                users.picture_url,
+                users.points,
+                users.created_at,
+
+                locations.name AS location_name
+
+            FROM users
+            LEFT JOIN locations ON users.location_id = locations.id
+            WHERE users.id = $1`,
       values: [userId],
     };
 
