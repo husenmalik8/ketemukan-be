@@ -5,6 +5,8 @@ const LostPayloadSchema = Joi.object({
   shortDesc: Joi.string().required(),
   description: Joi.string().required(),
   lostDate: Joi.string().required(),
+  categoryId: Joi.string().required(),
+  locationId: Joi.string().required(),
 });
 
 module.exports = { LostPayloadSchema };
