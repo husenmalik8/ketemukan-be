@@ -19,15 +19,22 @@ bcrypt
 database
 ==========
 psql --username postgres
-CREATE DATABASE ketemukan_v1;
-GRANT ALL ON DATABASE ketemukan_v1 TO developer;
-ALTER DATABASE ketemukan_v1 OWNER TO developer;
+CREATE DATABASE ketemukan_v2;
+GRANT ALL ON DATABASE ketemukan_v2 TO developer;
+ALTER DATABASE ketemukan_v2 OWNER TO developer;
 
 ==========
 migrations
 ==========
-npm run migrate create "create table users"
 npm run migrate create "create table authentications"
+npm run migrate create "create table categories"
+npm run migrate create "create table locations"
+
+npm run migrate create "create table achievements"
+npm run migrate create "create table users"
+
+npm run migrate create "create table user_achievements"
+
 npm run migrate create "create table lost_items"
 npm run migrate create "create table found_items"
 npm run migrate create "create table lost_comments"
