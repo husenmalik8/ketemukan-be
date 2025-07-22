@@ -12,6 +12,15 @@ const routes = (handler) => [
       auth: 'ketemukan_jwt',
     },
   },
+
+  {
+    method: 'GET',
+    path: '/my/lost-items',
+    handler: handler.getMyLostItemsHandler,
+    options: {
+      auth: 'ketemukan_jwt',
+    },
+  },
 ];
 
 module.exports = routes;

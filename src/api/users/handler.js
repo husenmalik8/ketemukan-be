@@ -37,6 +37,18 @@ class UsersHandler {
       },
     };
   };
+
+  getMyLostItemsHandler = async (request) => {
+    const { id: userId } = request.auth.credentials;
+    const myLostItems = await this._service.getMyLostItems(userId);
+
+    return {
+      status: 'success',
+      data: {
+        myLostItems,
+      },
+    };
+  };
 }
 
 module.exports = UsersHandler;

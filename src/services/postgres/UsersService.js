@@ -91,6 +91,43 @@ class UsersService {
 
     return result.rows[0];
   }
+
+  async getMyLostItems(userId) {
+    const query = {
+      text: `SELECT 
+              lost_items.id,
+              lost_items.title,
+              lost_items.short_desc,
+              lost_items.description,                
+              lost_items.picture_url, 
+              lost_items.lost_date,                                
+              lost_items.status,
+              lost_items.longitude,
+              lost_items.latitude,
+              
+              categories.name as category_name,
+              locations.name as location_name
+              
+              FROM lost_items
+              
+              LEFT JOIN categories ON lost_items.category_id = categories.id
+              LEFT JOIN locations ON lost_items.location_id = locations.id     
+              
+              WHERE lost_items.user_id = $1;`,
+      values: [userId],
+    };
+
+    const result = await this._pool.query(query).catch((error) => {
+      console.error(error);
+      throw new ServerError('Internal server error');
+    });
+
+    if (!result.rows.length) {
+      throw new InvariantError('Items tidak ditemukan');
+    }
+
+    return result.rows;
+  }
 }
 
 module.exports = UsersService;
