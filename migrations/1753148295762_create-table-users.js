@@ -1,31 +1,32 @@
 /* eslint-disable camelcase */
 
 exports.up = (pgm) => {
-  pgm.createTable('found_items', {
+  pgm.createTable('users', {
     id: {
       type: 'VARCHAR(50)',
       primaryKey: true,
     },
 
-    title: {
+    username: {
+      type: 'TEXT',
+      unique: true,
+      notNull: true,
+    },
+    password: {
       type: 'TEXT',
       notNull: true,
     },
-    short_desc: {
+    fullname: {
       type: 'TEXT',
       notNull: true,
     },
-    description: {
-      type: 'TEXT',
-      notNull: true,
-    },
-    picture: {
+    picture_url: {
       type: 'TEXT',
       notNull: false,
     },
-    found_date: {
+    points: {
       type: 'TEXT',
-      notNull: true,
+      notNull: false,
     },
 
     created_at: {
@@ -37,19 +38,13 @@ exports.up = (pgm) => {
       notNull: true,
     },
 
-    user_id: {
+    location_id: {
       type: 'TEXT',
       notNull: true,
     },
   });
-
-  pgm.addConstraint(
-    'found_items',
-    'fk_found_items__user_id',
-    'FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE'
-  );
 };
 
 exports.down = (pgm) => {
-  pgm.dropTable('found_items');
+  pgm.dropTable('users');
 };

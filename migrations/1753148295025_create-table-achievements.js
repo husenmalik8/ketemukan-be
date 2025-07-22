@@ -1,28 +1,31 @@
 /* eslint-disable camelcase */
 
 exports.up = (pgm) => {
-  pgm.createTable('users', {
+  pgm.createTable('achievements', {
     id: {
       type: 'VARCHAR(50)',
       primaryKey: true,
     },
 
-    username: {
-      type: 'TEXT',
-      unique: true,
-      notNull: true,
-    },
-    password: {
+    name: {
       type: 'TEXT',
       notNull: true,
     },
-    fullname: {
+    description: {
       type: 'TEXT',
       notNull: true,
     },
-    profile_picture: {
+    picture_url: {
       type: 'TEXT',
       notNull: false,
+    },
+    condition_type: {
+      type: 'TEXT',
+      notNull: true,
+    },
+    condition_value: {
+      type: 'TEXT',
+      notNull: true,
     },
 
     created_at: {
@@ -37,5 +40,5 @@ exports.up = (pgm) => {
 };
 
 exports.down = (pgm) => {
-  pgm.dropTable('users');
+  pgm.dropTable('achievements');
 };
