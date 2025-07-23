@@ -61,15 +61,10 @@ class LostsService {
     id;
     title;
     short_desc;
-    description;
     picture_url;
     lost_date;
     status;
-    longitude;
-    latitude;
     created_at;
-    updated_at;
-    user_id;
     category_id;
     location_id;
 
