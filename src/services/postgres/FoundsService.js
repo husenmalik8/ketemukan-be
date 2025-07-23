@@ -56,7 +56,20 @@ class FoundsService {
 
   async getFounds() {
     const query = {
-      text: 'SELECT id, title, short_desc, picture, found_date FROM found_items',
+      text: `SELECT 
+                found_items.id,
+                found_items.title,
+                found_items.short_desc,
+                found_items.picture_url,
+                found_items.found_date,
+                found_items.status,
+                found_items.created_at,
+
+                categories.name AS category_name,
+                locations.name AS location_name
+              FROM found_items
+              LEFT JOIN categories ON found_items.category_id = categories.id
+              LEFT JOIN locations ON found_items.location_id = locations.id;`,
     };
 
     const result = await this._pool.query(query).catch((error) => {
