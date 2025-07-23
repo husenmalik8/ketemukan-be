@@ -55,18 +55,21 @@ class LostsService {
 
   async getLosts() {
     const query = {
-      text: 'SELECT id, title, short_desc, picture, lost_date FROM lost_items',
-    };
+      text: `SELECT 
+                lost_items.id,
+                lost_items.title,
+                lost_items.short_desc,
+                lost_items.picture_url,
+                lost_items.lost_date,
+                lost_items.status,
+                lost_items.created_at,
 
-    id;
-    title;
-    short_desc;
-    picture_url;
-    lost_date;
-    status;
-    created_at;
-    category_id;
-    location_id;
+                categories.name AS category_name,
+                locations.name AS location_name
+              FROM lost_items
+              LEFT JOIN categories ON lost_items.category_id = categories.id
+              LEFT JOIN locations ON lost_items.location_id = locations.id;`,
+    };
 
     const result = await this._pool.query(query).catch((error) => {
       console.error(error);
