@@ -1,8 +1,9 @@
 class FoundsHandler {
-  constructor(service, validator, pointService) {
+  constructor(service, validator, pointService, achievementService) {
     this._service = service;
     this._validator = validator;
     this._pointService = pointService;
+    this._achievementService = achievementService;
   }
 
   postFoundHandler = async (request, h) => {
@@ -23,6 +24,7 @@ class FoundsHandler {
     });
 
     await this._pointService.addPoint(50, userId);
+    await this._achievementService.checkAndGiveAchievement(userId);
 
     const response = h.response({
       status: 'success',

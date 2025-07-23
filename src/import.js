@@ -53,6 +53,7 @@ const StorageService = require('./services/storage/StorageService');
 const UploadsValidator = require('./validator/uploads');
 
 const PointService = require('./services/postgres/PointService');
+const AchievementService = require('./services/postgres/AchievementService');
 
 module.exports = {
   Hapi,
@@ -88,4 +89,5 @@ module.exports = {
   StorageService,
   UploadsValidator,
   PointService,
+  AchievementService,
 };
