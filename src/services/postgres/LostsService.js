@@ -58,6 +58,21 @@ class LostsService {
       text: 'SELECT id, title, short_desc, picture, lost_date FROM lost_items',
     };
 
+    id;
+    title;
+    short_desc;
+    description;
+    picture_url;
+    lost_date;
+    status;
+    longitude;
+    latitude;
+    created_at;
+    updated_at;
+    user_id;
+    category_id;
+    location_id;
+
     const result = await this._pool.query(query).catch((error) => {
       console.error(error);
       throw new ServerError('Internal server error');
