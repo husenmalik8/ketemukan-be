@@ -29,6 +29,14 @@ const routes = (handler) => [
       auth: 'ketemukan_jwt',
     },
   },
+  {
+    method: 'GET',
+    path: '/my/achievements',
+    handler: handler.getMyAchievementsHandler,
+    options: {
+      auth: 'ketemukan_jwt',
+    },
+  },
 ];
 
 module.exports = routes;

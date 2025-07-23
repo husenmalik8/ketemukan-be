@@ -165,6 +165,32 @@ class UsersService {
 
     return result.rows;
   }
+
+  async getMyAchievements(userId) {
+    const query = {
+      text: `SELECT 
+              achievements.name,
+              achievements.description,
+              achievements.condition_type,
+              achievements.condition_value,
+              achievements.picture_url
+            FROM user_achievements
+            LEFT JOIN achievements ON user_achievements.achievement_id = achievements.id
+            WHERE user_achievements.user_id = $1;`,
+      values: [userId],
+    };
+
+    const result = await this._pool.query(query).catch((error) => {
+      console.error(error);
+      throw new ServerError('Internal server error');
+    });
+
+    if (!result.rows.length) {
+      throw new InvariantError('Achievement tidak ditemukan');
+    }
+
+    return result.rows;
+  }
 }
 
 module.exports = UsersService;

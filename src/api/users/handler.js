@@ -61,6 +61,18 @@ class UsersHandler {
       },
     };
   };
+
+  getMyAchievementsHandler = async (request) => {
+    const { id: userId } = request.auth.credentials;
+    const myAchievements = await this._service.getMyAchievements(userId);
+
+    return {
+      status: 'success',
+      data: {
+        myAchievements,
+      },
+    };
+  };
 }
 
 module.exports = UsersHandler;
