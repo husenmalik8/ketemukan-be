@@ -42,7 +42,6 @@ class AchievementService {
       text: `SELECT COUNT(*)::int AS count FROM found_comments WHERE user_id = $1`,
       values: [userId],
     };
-
     const { rows: foundComments } = await this._pool
       .query(queryFoundComments)
       .catch((error) => {
@@ -50,10 +49,20 @@ class AchievementService {
         throw new ServerError('Internal server error');
       });
 
-    console.log(foundComments);
+    const queryLostComments = {
+      text: `SELECT COUNT(*)::int AS count FROM lost_comments WHERE user_id = $1`,
+      values: [userId],
+    };
+    const { rows: lostComments } = await this._pool
+      .query(queryLostComments)
+      .catch((error) => {
+        console.error(error);
+        throw new ServerError('Internal server error');
+      });
 
-    // TODO
-    return 0;
+    const totalComment = lostComments[0].count + foundComments[0].count;
+
+    return totalComment;
   }
 
   async checkAndGiveAchievement(userId) {
@@ -104,7 +113,6 @@ class AchievementService {
           );
           break;
         case 'comments':
-          // userCount = 10; //TODO comment itu ada dari 2 table
           userCount = await this.countUserComments(userId);
           break;
         default:

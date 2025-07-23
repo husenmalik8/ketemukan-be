@@ -1,8 +1,9 @@
 class FoundCommentsHandler {
-  constructor(service, validator, pointService) {
+  constructor(service, validator, pointService, achievementService) {
     this._service = service;
     this._validator = validator;
     this._pointService = pointService;
+    this._achievementService = achievementService;
   }
 
   postFoundCommentHandler = async (request, h) => {
@@ -20,6 +21,7 @@ class FoundCommentsHandler {
     });
 
     await this._pointService.addPoint(10, userId);
+    await this._achievementService.checkAndGiveAchievement(userId);
 
     const response = h.response({
       status: 'success',

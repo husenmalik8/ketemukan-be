@@ -91,6 +91,7 @@ const init = async () => {
         service: lostsService,
         validator: LostCommentsValidator,
         pointService: pointService,
+        achievementService: achievementService,
       },
     },
     {
@@ -108,6 +109,7 @@ const init = async () => {
         service: foundsService,
         validator: FoundCommentsValidator,
         pointService: pointService,
+        achievementService: achievementService,
       },
     },
     {
