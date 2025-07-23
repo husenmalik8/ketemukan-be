@@ -38,6 +38,18 @@ class UsersHandler {
     };
   };
 
+  putUserHandler = async (request) => {
+    const { id: userId } = request.auth.credentials;
+    const { fullname, locationId } = request.payload;
+
+    await this._service.editProfileUser(userId, { fullname, locationId });
+
+    return {
+      status: 'success',
+      message: 'User berhasil diperbarui',
+    };
+  };
+
   getMyLostItemsHandler = async (request) => {
     const { id: userId } = request.auth.credentials;
     const myLostItems = await this._service.getMyLostItems(userId);

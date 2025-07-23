@@ -12,6 +12,14 @@ const routes = (handler) => [
       auth: 'ketemukan_jwt',
     },
   },
+  {
+    method: 'PUT',
+    path: '/users',
+    handler: handler.putUserHandler,
+    options: {
+      auth: 'ketemukan_jwt',
+    },
+  },
 
   {
     method: 'GET',

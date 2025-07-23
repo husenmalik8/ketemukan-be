@@ -62,6 +62,23 @@ class UsersService {
     }
   }
 
+  async editProfileUser(userId, { fullname, locationId }) {
+    const updatedAt = new Date().toISOString();
+    const query = {
+      text: 'UPDATE users SET fullname = $1, location_id = $2, updated_at = $3 WHERE id = $4 RETURNING id',
+      values: [fullname, locationId, updatedAt, userId],
+    };
+
+    const result = await this._pool.query(query).catch((error) => {
+      console.error(error);
+      throw new ServerError('Internal server error');
+    });
+
+    if (!result.rows.length) {
+      throw new InvariantError('User gagal di-edit');
+    }
+  }
+
   async getProfileUser(userId) {
     const query = {
       text: `SELECT 
