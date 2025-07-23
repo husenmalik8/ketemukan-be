@@ -82,7 +82,31 @@ class FoundsService {
 
   async getFoundById(id) {
     const query = {
-      text: 'SELECT id, title, short_desc, description, picture, found_date FROM found_items WHERE id = $1',
+      text: `SELECT 
+                found_items.id,
+                found_items.title,
+                found_items.short_desc,
+                found_items.description,
+                found_items.picture_url,
+                found_items.found_date,
+                found_items.status,
+                found_items.longitude,
+                found_items.latitude,
+                found_items.created_at,
+
+                users.id AS user_id,
+                users.username AS user_username,
+                users.fullname AS user_fullname,
+                users.picture_url AS user_picture_url,
+
+                categories.name AS category_name,
+                locations.name AS location_name
+
+              FROM found_items
+              LEFT JOIN categories ON found_items.category_id = categories.id
+              LEFT JOIN locations ON found_items.location_id = locations.id
+              LEFT JOIN users ON found_items.user_id = users.id
+              WHERE found_items.id = $1;`,
       values: [id],
     };
 
@@ -106,7 +130,7 @@ class FoundsService {
                 users.id as user_id,
                 users.username,
                 users.fullname,
-                users.profile_picture
+                users.picture_url
             FROM found_comments
             LEFT JOIN users ON found_comments.user_id = users.id
             WHERE found_comments.found_item_id = $1`,

@@ -2,6 +2,7 @@ const { Pool } = require('pg');
 const { nanoid } = require('nanoid');
 const ServerError = require('../../exceptions/ServerError');
 const InvariantError = require('../../exceptions/InvariantError');
+const NotFoundError = require('../../exceptions/NotFoundError');
 
 class LostsService {
   constructor() {
@@ -81,7 +82,31 @@ class LostsService {
 
   async getLostById(id) {
     const query = {
-      text: 'SELECT id, title, short_desc, description, picture, lost_date FROM lost_items WHERE id = $1',
+      text: `SELECT 
+                lost_items.id,
+                lost_items.title,
+                lost_items.short_desc,
+                lost_items.description,
+                lost_items.picture_url,
+                lost_items.lost_date,
+                lost_items.status,
+                lost_items.longitude,
+                lost_items.latitude,
+                lost_items.created_at,
+
+                users.id AS user_id,
+                users.username AS user_username,
+                users.fullname AS user_fullname,
+                users.picture_url AS user_picture_url,
+
+                categories.name AS category_name,
+                locations.name AS location_name
+
+              FROM lost_items
+              LEFT JOIN categories ON lost_items.category_id = categories.id
+              LEFT JOIN locations ON lost_items.location_id = locations.id
+              LEFT JOIN users ON lost_items.user_id = users.id
+              WHERE lost_items.id = $1;`,
       values: [id],
     };
 
@@ -105,7 +130,7 @@ class LostsService {
                 users.id as user_id,
                 users.username,
                 users.fullname,
-                users.profile_picture
+                users.picture_url
             FROM lost_comments
             LEFT JOIN users ON lost_comments.user_id = users.id
             WHERE lost_comments.lost_item_id = $1`,
