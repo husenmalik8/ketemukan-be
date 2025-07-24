@@ -3,8 +3,8 @@ const path = require('path');
 const routes = (handler) => [
   {
     method: 'POST',
-    path: '/albums/{id}/covers',
-    handler: handler.postUploadImageHandler,
+    path: '/users/picture',
+    handler: handler.postUploadUserPictureHandler,
     options: {
       payload: {
         allow: 'multipart/form-data',
@@ -12,11 +12,12 @@ const routes = (handler) => [
         output: 'stream',
         maxBytes: 512000,
       },
+      auth: 'ketemukan_jwt',
     },
   },
   {
     method: 'GET',
-    path: '/albums/{id}/{param*}',
+    path: '/users/{param*}',
     handler: {
       directory: {
         path: path.resolve(__dirname, 'file'),

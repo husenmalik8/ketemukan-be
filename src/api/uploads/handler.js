@@ -14,26 +14,23 @@ class UploadsHandler {
     this._validator = validator;
   }
 
-  postUploadImageHandler = async (request, h) => {
-    const { cover } = request.payload;
-    const { id: albumId } = request.params;
+  postUploadUserPictureHandler = async (request, h) => {
+    const { picture } = request.payload;
+    const { id: userId } = request.auth.credentials;
 
-    this._validator.validateImageHeaders(cover.hapi.headers);
+    this._validator.validateImageHeaders(picture.hapi.headers);
 
-    const fileContent = bufferToDataUri(cover);
+    const fileContent = bufferToDataUri(picture);
     const result = await cloudinary.uploader.upload(fileContent, {
-      folder: 'album-covers',
+      folder: `users-picture/${userId}`,
     });
     const fileLocation = result.secure_url;
 
-    // const filename = await this._service.writeFile(cover, cover.hapi);
-    // const fileLocation = `http://${process.env.HOST}:${process.env.PORT}/albums/${albumId}/images/${filename}`;
-
-    await this._service.editAlbumCover(albumId, fileLocation);
+    await this._service.editUserPicture(userId, fileLocation);
 
     const response = h.response({
       status: 'success',
-      message: 'Sampul berhasil diunggah',
+      message: 'Profile picture berhasil diunggah',
       data: {
         fileLocation,
       },
