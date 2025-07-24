@@ -8,6 +8,14 @@ const routes = (handler) => [
     },
   },
   {
+    method: 'PUT',
+    path: '/founds/{id}',
+    handler: handler.putFoundHandler,
+    options: {
+      auth: 'ketemukan_jwt',
+    },
+  },
+  {
     method: 'GET',
     path: '/founds',
     handler: handler.getFoundsHandler,

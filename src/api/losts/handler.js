@@ -9,8 +9,7 @@ class LostsHandler {
   postLostHandler = async (request, h) => {
     this._validator.validateLostPayload(request.payload);
 
-    const { title, shortDesc, description, lostDate, categoryId, locationId } =
-      request.payload;
+    const { title, shortDesc, description, lostDate, categoryId, locationId } = request.payload;
     const { id: userId } = request.auth.credentials;
 
     const lostId = await this._service.addLost({
@@ -32,6 +31,22 @@ class LostsHandler {
       data: {
         lostId,
       },
+    });
+    response.code(201);
+    return response;
+  };
+
+  putLostHandler = async (request, h) => {
+    this._validator.validatePutLostPayload(request.payload);
+
+    const { id: lostId } = request.params;
+    const { id: userId } = request.auth.credentials;
+
+    await this._service.putLost(lostId, userId, request.payload);
+
+    const response = h.response({
+      status: 'success',
+      message: 'Lost item berhasil diperbarui',
     });
     response.code(201);
     return response;

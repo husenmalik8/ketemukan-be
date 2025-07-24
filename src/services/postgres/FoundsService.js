@@ -9,15 +9,7 @@ class FoundsService {
     this._pool = new Pool();
   }
 
-  async addFound({
-    title,
-    shortDesc,
-    description,
-    foundDate,
-    userId,
-    categoryId,
-    locationId,
-  }) {
+  async addFound({ title, shortDesc, description, foundDate, userId, categoryId, locationId }) {
     const id = `found-${nanoid(16)}`;
     const createdAt = new Date().toISOString();
     const updatedAt = createdAt;
@@ -52,6 +44,64 @@ class FoundsService {
     }
 
     return resultId;
+  }
+
+  async putFound(
+    foundId,
+    userId,
+    {
+      title,
+      shortDesc,
+      description,
+      foundDate,
+      status,
+      longitude,
+      latitude,
+      categoryId,
+      locationId,
+    }
+  ) {
+    const updatedAt = new Date().toISOString();
+
+    const query = {
+      text: `UPDATE found_items
+              SET 
+                title = $1,
+                short_desc = $2,
+                description = $3,
+                found_date = $4,
+                status = $5,
+                longitude = $6,
+                latitude = $7,
+                updated_at = $8,
+                category_id = $9,
+                location_id = $10
+              WHERE id = $11 AND user_id = $12
+              RETURNING id;`,
+      values: [
+        title,
+        shortDesc,
+        description,
+        foundDate,
+        status,
+        longitude,
+        latitude,
+        updatedAt,
+        categoryId,
+        locationId,
+        foundId,
+        userId,
+      ],
+    };
+
+    const result = await this._pool.query(query).catch((error) => {
+      console.error(error);
+      throw new ServerError('Internal server error');
+    });
+
+    if (!result.rowCount) {
+      throw new InvariantError('Found item gagal diubah');
+    }
   }
 
   async getFounds() {

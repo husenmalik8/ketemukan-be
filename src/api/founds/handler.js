@@ -9,8 +9,7 @@ class FoundsHandler {
   postFoundHandler = async (request, h) => {
     this._validator.validateFoundPayload(request.payload);
 
-    const { title, shortDesc, description, foundDate, categoryId, locationId } =
-      request.payload;
+    const { title, shortDesc, description, foundDate, categoryId, locationId } = request.payload;
     const { id: userId } = request.auth.credentials;
 
     const foundId = await this._service.addFound({
@@ -32,6 +31,22 @@ class FoundsHandler {
       data: {
         foundId,
       },
+    });
+    response.code(201);
+    return response;
+  };
+
+  putFoundHandler = async (request, h) => {
+    this._validator.validatePutFoundPayload(request.payload);
+
+    const { id: foundId } = request.params;
+    const { id: userId } = request.auth.credentials;
+
+    await this._service.putFound(foundId, userId, request.payload);
+
+    const response = h.response({
+      status: 'success',
+      message: 'Found item berhasil diperbarui',
     });
     response.code(201);
     return response;

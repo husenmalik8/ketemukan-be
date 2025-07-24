@@ -9,15 +9,7 @@ class LostsService {
     this._pool = new Pool();
   }
 
-  async addLost({
-    title,
-    shortDesc,
-    description,
-    lostDate,
-    userId,
-    categoryId,
-    locationId,
-  }) {
+  async addLost({ title, shortDesc, description, lostDate, userId, categoryId, locationId }) {
     const id = `lost-${nanoid(16)}`;
     const createdAt = new Date().toISOString();
     const updatedAt = createdAt;
@@ -52,6 +44,54 @@ class LostsService {
     }
 
     return resultId;
+  }
+
+  async putLost(
+    lostId,
+    userId,
+    { title, shortDesc, description, lostDate, status, longitude, latitude, categoryId, locationId }
+  ) {
+    const updatedAt = new Date().toISOString();
+
+    const query = {
+      text: `UPDATE lost_items
+              SET 
+                title = $1,
+                short_desc = $2,
+                description = $3,
+                lost_date = $4,
+                status = $5,
+                longitude = $6,
+                latitude = $7,
+                updated_at = $8,
+                category_id = $9,
+                location_id = $10
+              WHERE id = $11 AND user_id = $12
+              RETURNING id;`,
+      values: [
+        title,
+        shortDesc,
+        description,
+        lostDate,
+        status,
+        longitude,
+        latitude,
+        updatedAt,
+        categoryId,
+        locationId,
+        lostId,
+        userId,
+      ],
+    };
+
+    const result = await this._pool.query(query).catch((error) => {
+      console.error(error);
+      throw new ServerError('Internal server error');
+    });
+
+    if (!result.rowCount) {
+      throw new InvariantError('Lost item gagal diubah');
+    }
   }
 
   async getLosts() {
