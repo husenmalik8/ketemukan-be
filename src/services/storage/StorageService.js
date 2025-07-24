@@ -41,6 +41,23 @@ class StorageService {
       throw new NotFoundError('Gagal memperbarui lost picture. Id tidak ditemukan');
     }
   }
+
+  async editFoundPicture(foundId, fileLocation) {
+    const updatedAt = new Date().toISOString();
+    const query = {
+      text: 'UPDATE found_items SET picture_url = $1, updated_at = $2 WHERE id = $3 RETURNING id',
+      values: [fileLocation, updatedAt, foundId],
+    };
+
+    const result = await this._pool.query(query).catch((error) => {
+      console.error(error);
+      throw new ServerError('Internal server error');
+    });
+
+    if (!result.rows.length) {
+      throw new NotFoundError('Gagal memperbarui found picture. Id tidak ditemukan');
+    }
+  }
 }
 
 module.exports = StorageService;
