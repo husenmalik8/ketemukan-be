@@ -185,9 +185,20 @@ class FoundsService {
     }
   }
 
-  // TODO
-  async verifyFoundItemOwner({ foundId, userId }) {
-    // TODO
+  async deleteFoundItemById(userId, foundId) {
+    const query = {
+      text: 'DELETE FROM found_items WHERE id = $1 AND user_id = $2 RETURNING id',
+      values: [foundId, userId],
+    };
+
+    const result = await this._pool.query(query).catch((error) => {
+      console.error(error);
+      throw new ServerError('Internal server error');
+    });
+
+    if (!result.rows.length) {
+      throw new NotFoundError('Found Item gagal dihapus. Id tidak ditemukan');
+    }
   }
 }
 

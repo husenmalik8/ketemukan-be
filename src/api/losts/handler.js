@@ -61,6 +61,18 @@ class LostsHandler {
       },
     };
   };
+
+  deleteLostItemByIdHandler = async (request) => {
+    const { id: userId } = request.auth.credentials;
+    const { id: lostId } = request.params;
+
+    await this._service.deleteLostItemById(userId, lostId);
+
+    return {
+      status: 'success',
+      message: 'Lost Item berhasil dihapus',
+    };
+  };
 }
 
 module.exports = LostsHandler;

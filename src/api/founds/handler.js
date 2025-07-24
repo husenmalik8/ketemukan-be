@@ -61,6 +61,18 @@ class FoundsHandler {
       },
     };
   };
+
+  deleteFoundItemByIdHandler = async (request) => {
+    const { id: userId } = request.auth.credentials;
+    const { id: foundId } = request.params;
+
+    await this._service.deleteFoundItemById(userId, foundId);
+
+    return {
+      status: 'success',
+      message: 'Found Item berhasil dihapus',
+    };
+  };
 }
 
 module.exports = FoundsHandler;

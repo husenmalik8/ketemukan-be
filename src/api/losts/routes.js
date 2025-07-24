@@ -17,6 +17,14 @@ const routes = (handler) => [
     path: '/losts/{id}',
     handler: handler.getLostByIdHandler,
   },
+  {
+    method: 'DELETE',
+    path: '/losts/{id}',
+    handler: handler.deleteLostItemByIdHandler,
+    options: {
+      auth: 'ketemukan_jwt',
+    },
+  },
 ];
 
 module.exports = routes;

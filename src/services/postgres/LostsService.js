@@ -184,6 +184,22 @@ class LostsService {
       throw new NotFoundError('Lost item tidak ditemukan');
     }
   }
+
+  async deleteLostItemById(userId, lostId) {
+    const query = {
+      text: 'DELETE FROM lost_items WHERE id = $1 AND user_id = $2 RETURNING id',
+      values: [lostId, userId],
+    };
+
+    const result = await this._pool.query(query).catch((error) => {
+      console.error(error);
+      throw new ServerError('Internal server error');
+    });
+
+    if (!result.rows.length) {
+      throw new NotFoundError('Lost Item gagal dihapus. Id tidak ditemukan');
+    }
+  }
 }
 
 module.exports = LostsService;
