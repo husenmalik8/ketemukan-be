@@ -38,6 +38,31 @@ class UploadsHandler {
     response.code(201);
     return response;
   };
+
+  postUploadLostPictureHandler = async (request, h) => {
+    const { picture } = request.payload;
+    const { id: lostId } = request.params;
+
+    this._validator.validateImageHeaders(picture.hapi.headers);
+
+    const fileContent = bufferToDataUri(picture);
+    const result = await cloudinary.uploader.upload(fileContent, {
+      folder: `losts-picture/${lostId}`,
+    });
+    const fileLocation = result.secure_url;
+
+    await this._service.editLostPicture(lostId, fileLocation);
+
+    const response = h.response({
+      status: 'success',
+      message: 'Lost picture berhasil diunggah',
+      data: {
+        fileLocation,
+      },
+    });
+    response.code(201);
+    return response;
+  };
 }
 
 module.exports = UploadsHandler;
